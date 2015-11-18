@@ -18,6 +18,16 @@ logging.basicConfig(stream=sys.stdout,
                     datefmt='%m/%d/%Y %I:%M:%S %p',
                     level=logging.DEBUG)
 
+# network config
+USE_PROXY = False
+HTTP_PROXY = ''
+HTTPS_PROXY = ''
+
+if USE_PROXY:
+    proxy = urllib2.ProxyHandler({'http': HTTP_PROXY, 'https': HTTPS_PROXY})
+    opener = urllib2.build_opener(proxy)
+    urllib2.install_opener(opener)
+
 def get_user_pictures_location():
     # http://stackoverflow.com/questions/6227590/finding-the-users-my-documents-path
     buf=ctypes.create_unicode_buffer(ctypes.wintypes.MAX_PATH)
