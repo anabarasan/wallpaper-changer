@@ -36,7 +36,7 @@ def get_user_pictures_location():
 
 # required date values in required formats
 WALLPAPER_MONTH = time.strftime('%B').lower()     # January
-WALLPAPER_YEAR = time.strftime('%Y')              # 2015
+WALLPAPER_YEAR = int(time.strftime('%Y'))         # 2015
 CURRENT_DATE = int(time.strftime('%d'))
 CURRENT_MONTH = int(time.strftime('%m'))          # 1
 SUBMISSION_MONTH = 12 if CURRENT_MONTH - 1 == 0 else CURRENT_MONTH - 1
@@ -49,6 +49,7 @@ CSIDL_PERSONAL = 5        # My Documents
 CSIDL_MYPICTURES = 39     # My Pictures
 SHGFP_TYPE_CURRENT = 1    # Get current, not default value
 MY_PICTURES = '%s/%s/%s' % (get_user_pictures_location(), WALLPAPER_YEAR, CURRENT_MONTH)
+logging.debug(MY_PICTURES)
 
 # Base Url which lists the current months wallpapers
 WALLPAPER_LIST_URL = 'http://www.smashingmagazine.com/%s/%s/desktop-wallpaper-calendars-%s-%s'
@@ -133,6 +134,7 @@ def set_wallpaper(URI):
         # so using SystemParametersInfoW() which works with Unicode chars
         ret = ctypes.windll.user32.SystemParametersInfoW(20, 0, URI, 3)
         logging.debug(ret)
+        logging.debug(ctypes.GetLastError())
     except:
         logging.error('unable to set wallpaper')
         logging.error(ctypes.FormatError())
